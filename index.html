@@ -32,10 +32,14 @@
         .form-group { margin-bottom: 24px; }
         label.field-label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
 
-        input[type="text"], input[type="date"], select, textarea { width: 100%; padding: 14px; background-color: var(--input-bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); font-size: 14px; font-family: 'Inter', sans-serif; box-sizing: border-box; transition: all 0.3s ease; appearance: none; }
+        input[type="text"], input[type="date"], input[type="number"], select, textarea { width: 100%; padding: 14px; background-color: var(--input-bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); font-size: 14px; font-family: 'Inter', sans-serif; box-sizing: border-box; transition: all 0.3s ease; appearance: none; }
         select { background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1em; padding-right: 2.5rem; }
-        input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
+        input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
         ::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.5; cursor: pointer; }
+
+        /* Hide Number Spinners */
+        input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
 
         .btn-group { display: flex; gap: 12px; margin-top: 30px; }
         button { flex: 1; padding: 16px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.2s ease; }
@@ -49,6 +53,9 @@
         
         .btn-icon { flex: none; width: 48px; padding: 0; background-color: var(--input-bg); border: 1px solid var(--border); color: var(--accent); display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .btn-icon:hover { border-color: var(--accent); background-color: rgba(197, 168, 128, 0.05); }
+
+        .sheet-link { display: block; text-align: center; margin-top: 16px; color: var(--accent); font-size: 11px; font-weight: 600; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; transition: opacity 0.2s ease; }
+        .sheet-link:hover { opacity: 0.8; text-decoration: underline; }
 
         /* Custom Checkbox Styling */
         .space-card { border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; background-color: rgba(255, 255, 255, 0.01); transition: border-color 0.3s ease; }
@@ -82,10 +89,20 @@
         .success { color: #4ade80; }
         .error { color: #f87171; }
 
+        /* INCREASED FONT SIZES FOR MOBILE ONLY */
         @media (max-width: 480px) {
             .container { padding: 30px 20px; border: none; box-shadow: none; }
             body { padding: 0; background-color: var(--card-bg); }
             .sub-options-grid { grid-template-columns: 1fr; }
+            
+            /* Text elements made larger for easier reading/tapping */
+            input[type="text"], input[type="date"], input[type="number"], select, textarea { font-size: 16px; padding: 15px; }
+            .checkbox-container { font-size: 16px; }
+            .checkbox-container.small { font-size: 14.5px; }
+            label.field-label { font-size: 12px; margin-bottom: 10px; }
+            button { font-size: 13px; }
+            .sub-input-group select, .sub-input-group textarea { font-size: 15px; }
+            .bedroom-header h3 { font-size: 15px; }
         }
     </style>
 </head>
@@ -93,10 +110,8 @@
 
     <div class="container">
         <div class="header">
-            
             <!-- OFFICIAL WEBSITE LOGO -->
             <img src="https://faboolux.com/wp-content/uploads/2022/03/logo-1536x921-1.webp" alt="Faboolux Logo" class="logo">
-            
             <p>Project Specifications</p>
         </div>
 
@@ -119,12 +134,11 @@
                         <option value="5 - 10 Lakh">5 - 10 Lakh</option>
                         <option value="10 - 15 Lakh">10 - 15 Lakh</option>
                         <option value="15 - 20 Lakh">15 - 20 Lakh</option>
+                        <option value="No budget preference">No budget preference</option>
                         <option value="Custom">Custom (Enter manually)</option>
                     </select>
-                    <!-- Smart Auto-Formatting Budget Box -->
-                    <input type="text" id="budgetCustom" placeholder="e.g., 35 Lakh" style="display:none; margin-top:10px;" 
-                           onfocus="this.value = this.value.replace(/[^0-9]/g, '')" 
-                           onblur="if(this.value.replace(/[^0-9]/g, '') !== '') this.value = this.value.replace(/[^0-9]/g, '') + ' Lakh'">
+                    <!-- Type=Number restricts to purely digits and opens the mobile number pad -->
+                    <input type="number" id="budgetCustom" placeholder="Enter amount (e.g. 35)" style="display:none; margin-top:10px;" min="0">
                 </div>
                 <div class="form-group">
                     <label class="field-label" for="condition">Site Condition</label>
@@ -147,6 +161,8 @@
                 <div class="btn-group">
                     <button type="button" class="btn-primary" onclick="nextStep()">Continue to Requirements</button>
                 </div>
+                <!-- Go to Sheet Link -->
+                <a href="https://docs.google.com/spreadsheets/d/1etQqPQYxRnQQWxF9qrB4wDA_BTA7QqZ4bHeWom6E-uY/edit?usp=sharing" target="_blank" class="sheet-link">Go to Sheet</a>
             </div>
 
             <!-- STEP 2: DESIGN & TECHNICAL REQUIREMENTS -->
@@ -187,9 +203,9 @@
                             </div>
                         </div>
 
-                        <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Ceiling Work" class="data-check standalone"><span class="checkmark"></span> Ceiling Work</label></div>
                         <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Foyer Shoe rack" class="data-check standalone"><span class="checkmark"></span> Foyer Shoe Rack</label></div>
                         <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Curtain pelmets" class="data-check standalone"><span class="checkmark"></span> Curtain Pelmets</label></div>
+                        <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Ceiling Work" class="data-check standalone"><span class="checkmark"></span> Ceiling Work</label></div>
                         <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Wallpapers / textures" class="data-check standalone"><span class="checkmark"></span> Wallpapers / Textures</label></div>
                         
                         <!-- Living Notes -->
@@ -265,7 +281,6 @@
                     </label>
                     <div id="nestedToilets" class="nested-container req-group">
                         <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Vanity Unit" class="data-check standalone"><span class="checkmark"></span> Vanity</label></div>
-                        <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Shower Partition" class="data-check standalone"><span class="checkmark"></span> Shower Partition</label></div>
                         <div class="nested-item">
                             <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="toiletMirrorOptions"><span class="checkmark"></span> Mirror</label>
                             <div id="toiletMirrorOptions" class="sub-input-group">
@@ -276,6 +291,7 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Shower Partition" class="data-check standalone"><span class="checkmark"></span> Shower Partition</label></div>
                         
                         <!-- Toilet Notes -->
                         <div class="nested-item">
@@ -812,10 +828,11 @@
 
             const requirementsString = compileRequirements();
             
-            // Handle Custom Budget Value
+            // Handle Custom Budget Value Appending " Lakh" here for the CRM
             let finalBudget = document.getElementById('budget').value;
             if (finalBudget === 'Custom') {
-                finalBudget = document.getElementById('budgetCustom').value.trim();
+                let customVal = document.getElementById('budgetCustom').value.trim();
+                finalBudget = customVal ? customVal + " Lakh" : "";
             }
             
             // Handle Custom/Extra RSM Value
