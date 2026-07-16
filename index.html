@@ -21,79 +21,9 @@
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
         .container { background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 40px; width: 100%; max-width: 600px; box-shadow: 0 20px 45px rgba(0,0,0,0.6); transition: all 0.3s ease; }
         
-        /* CSS Logo Styles based on images (1).png */
         .header { text-align: center; margin-bottom: 35px; }
-        .faboolux-css-logo {
-            position: relative;
-            width: 300px;
-            height: 150px;
-            margin: 0 auto 10px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Arial Rounded MT Bold', 'Inter', sans-serif;
-            user-select: none;
-        }
-        .fab-blob-purple {
-            position: absolute;
-            left: 5px;
-            top: 5px;
-            width: 175px;
-            height: 135px;
-            background-color: #5A4A9C;
-            border-radius: 54% 46% 40% 60% / 65% 55% 45% 35%;
-            transform: rotate(-12deg);
-            z-index: 1;
-        }
-        .fab-blob-orange {
-            position: absolute;
-            right: 0px;
-            top: 25px;
-            width: 195px;
-            height: 125px;
-            background-color: #ED6A22;
-            border-radius: 40% 60% 55% 45% / 45% 50% 50% 55%;
-            transform: rotate(6deg);
-            z-index: 2;
-        }
-        .fab-text-wrapper {
-            position: relative;
-            z-index: 3;
-            display: flex;
-            align-items: center;
-            font-size: 52px;
-            font-weight: 800;
-            color: #ffffff;
-            letter-spacing: -1px;
-            padding-top: 12px;
-            padding-left: 8px;
-        }
-        .fab-dot {
-            display: inline-block;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            margin: 0 2px;
-        }
-        .fab-dot-orange { background-color: #ED6A22; margin-left: 6px; }
-        .fab-dot-purple { background-color: #5A4A9C; margin-right: 5px; margin-top: 1px; }
-        .fab-lux-group {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            line-height: 0.8;
-            margin-left: 0px;
-        }
-        .fab-subtext {
-            font-size: 9px;
-            font-weight: 600;
-            letter-spacing: 5px;
-            color: #ffffff;
-            margin-top: 6px;
-            margin-left: 2px;
-            font-family: 'Inter', sans-serif;
-        }
-        .header p { color: var(--text-muted); font-size: 11px; margin: 0; letter-spacing: 2px; text-transform: uppercase; margin-top: 15px;}
+        .header img.logo { max-width: 250px; max-height: 70px; margin-bottom: 12px; object-fit: contain; }
+        .header p { color: var(--text-muted); font-size: 11px; margin: 0; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px;}
 
         .step { display: none; }
         .step.active { display: block; animation: fadeIn 0.4s ease; }
@@ -156,7 +86,6 @@
             .container { padding: 30px 20px; border: none; box-shadow: none; }
             body { padding: 0; background-color: var(--card-bg); }
             .sub-options-grid { grid-template-columns: 1fr; }
-            .faboolux-css-logo { transform: scale(0.85); margin-bottom: 0px; }
         }
     </style>
 </head>
@@ -164,20 +93,9 @@
 
     <div class="container">
         <div class="header">
-            <!-- PURE CSS RECREATION OF IMAGES (1).PNG -->
-            <div class="faboolux-css-logo">
-                <div class="fab-blob-purple"></div>
-                <div class="fab-blob-orange"></div>
-                <div class="fab-text-wrapper">
-                    <span>FAB</span>
-                    <span class="fab-dot fab-dot-orange"></span>
-                    <span class="fab-dot fab-dot-purple"></span>
-                    <div class="fab-lux-group">
-                        <span>LUX</span>
-                        <span class="fab-subtext">INTERIORS</span>
-                    </div>
-                </div>
-            </div>
+            
+            <!-- OFFICIAL WEBSITE LOGO -->
+            <img src="https://faboolux.com/wp-content/uploads/2022/03/logo-1536x921-1.webp" alt="Faboolux Logo" class="logo">
             
             <p>Project Specifications</p>
         </div>
@@ -494,7 +412,14 @@
     <template id="bedroomTemplate">
         <div class="space-card bedroom-instance">
             <div class="bedroom-header">
-                <h3>Bedroom <span class="bed-num"></span></h3>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <!-- Title gets contenteditable when pencil is clicked -->
+                    <h3 class="bed-title-display" style="padding: 2px 4px; border-radius: 4px; border-bottom: 1px solid transparent;">Bedroom <span class="bed-num"></span></h3>
+                    <!-- Edit Pencil Icon -->
+                    <button type="button" onclick="editRoomNameInPlace(this)" title="Edit bedroom name" style="background: none; border: none; color: var(--accent); cursor: pointer; padding: 0; display: flex; opacity: 0.8; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                    </button>
+                </div>
                 <button type="button" class="remove-btn" onclick="removeBedroom(this)">Remove</button>
             </div>
             <div class="req-group">
@@ -603,6 +528,54 @@
                 extraInput.style.display = 'none';
                 extraInput.value = '';
                 rsmSelect.disabled = false; // Unlock main dropdown
+            }
+        }
+
+        // In-Place Editor for Bedroom Titles
+        function editRoomNameInPlace(btn) {
+            const titleEl = btn.previousElementSibling;
+            
+            // Make the title editable
+            titleEl.contentEditable = "true";
+            titleEl.style.borderBottom = "1px dashed var(--accent)";
+            titleEl.style.outline = "none";
+            titleEl.style.backgroundColor = "rgba(197, 168, 128, 0.1)";
+            
+            // Focus the text so the user can type immediately
+            titleEl.focus();
+
+            // Select all text inside it automatically
+            document.execCommand('selectAll', false, null);
+
+            // Handle what happens when the user clicks away (loses focus)
+            titleEl.onblur = function() {
+                saveRoomName(titleEl);
+            };
+
+            // Handle what happens if the user presses the 'Enter' key
+            titleEl.onkeydown = function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Stop it from creating a new line
+                    titleEl.blur();     // Force the save by triggering 'onblur'
+                }
+            };
+        }
+
+        // Function that saves the name and turns off edit mode
+        function saveRoomName(titleEl) {
+            titleEl.contentEditable = "false";
+            titleEl.style.borderBottom = "1px solid transparent";
+            titleEl.style.backgroundColor = "transparent";
+            
+            let newName = titleEl.textContent.trim();
+            
+            if (newName === '') {
+                // If they deleted everything, restore default name and update numbers
+                titleEl.innerHTML = 'Bedroom <span class="bed-num"></span>';
+                renumberBedrooms();
+            } else {
+                // Save their new custom name
+                titleEl.textContent = newName;
             }
         }
 
@@ -716,7 +689,11 @@
             const wrapper = document.createElement('div');
             wrapper.innerHTML = html;
             const instance = wrapper.firstElementChild;
-            instance.querySelector('.bed-num').textContent = bedroomCount;
+            
+            // Only update the number span if the user hasn't created a custom name
+            let numSpan = instance.querySelector('.bed-num');
+            if (numSpan) numSpan.textContent = bedroomCount;
+            
             document.getElementById('bedroomsWrapper').appendChild(instance);
             renumberBedrooms();
         }
@@ -728,7 +705,12 @@
 
         function renumberBedrooms() {
             const beds = document.querySelectorAll('.bedroom-instance');
-            beds.forEach((bed, index) => { bed.querySelector('.bed-num').textContent = index + 1; });
+            beds.forEach((bed, index) => { 
+                let numSpan = bed.querySelector('.bed-num');
+                if(numSpan) {
+                    numSpan.textContent = index + 1; 
+                }
+            });
             bedroomCount = beds.length;
         }
 
@@ -791,7 +773,10 @@
 
             const beds = document.querySelectorAll('.bedroom-instance');
             beds.forEach((bed, index) => {
-                finalLog.push("■ BEDROOM " + (index + 1));
+                // Fetch the dynamic bedroom name 
+                let roomName = bed.querySelector('.bed-title-display').textContent.trim().toUpperCase();
+                finalLog.push("■ " + roomName);
+                
                 const parsed = parseGroup(bed.querySelector('.req-group'));
                 if(parsed.length > 0) finalLog.push(parsed.join("\n"));
                 else finalLog.push("  - Included (No specific details configured)");
