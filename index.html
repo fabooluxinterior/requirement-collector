@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faboolux | Project Intake</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --bg-color: #121212; 
+            --card-bg: #1c1c1e;
+            --text-main: #f5f5f7;
+            --text-muted: #8e8e93;
+            --accent: #c5a880; 
+            --border: #2c2c2e;
+            --input-bg: #222224;
+            --checkbox-accent: #c5a880;
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
+        .container { background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 40px; width: 100%; max-width: 600px; box-shadow: 0 20px 45px rgba(0,0,0,0.6); transition: all 0.3s ease; }
+        
+        /* CSS Logo Styles based on images (1).png */
+        .header { text-align: center; margin-bottom: 35px; }
+        .faboolux-css-logo {
+            position: relative;
+            width: 300px;
+            height: 150px;
+            margin: 0 auto 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Arial Rounded MT Bold', 'Inter', sans-serif;
+            user-select: none;
+        }
+        .fab-blob-purple {
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: 175px;
+            height: 135px;
+            background-color: #5A4A9C;
+            border-radius: 54% 46% 40% 60% / 65% 55% 45% 35%;
+            transform: rotate(-12deg);
+            z-index: 1;
+        }
+        .fab-blob-orange {
+            position: absolute;
+            right: 0px;
+            top: 25px;
+            width: 195px;
+            height: 125px;
+            background-color: #ED6A22;
+            border-radius: 40% 60% 55% 45% / 45% 50% 50% 55%;
+            transform: rotate(6deg);
+            z-index: 2;
+        }
+        .fab-text-wrapper {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            font-size: 52px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -1px;
+            padding-top: 12px;
+            padding-left: 8px;
+        }
+        .fab-dot {
+            display: inline-block;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            margin: 0 2px;
+        }
+        .fab-dot-orange { background-color: #ED6A22; margin-left: 6px; }
+        .fab-dot-purple { background-color: #5A4A9C; margin-right: 5px; margin-top: 1px; }
+        .fab-lux-group {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            line-height: 0.8;
+            margin-left: 0px;
+        }
+        .fab-subtext {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 5px;
+            color: #ffffff;
+            margin-top: 6px;
+            margin-left: 2px;
+            font-family: 'Inter', sans-serif;
+        }
+        .header p { color: var(--text-muted); font-size: 11px; margin: 0; letter-spacing: 2px; text-transform: uppercase; margin-top: 15px;}
+
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .form-group { margin-bottom: 24px; }
+        label.field-label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        input[type="text"], input[type="date"], select, textarea { width: 100%; padding: 14px; background-color: var(--input-bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); font-size: 14px; font-family: 'Inter', sans-serif; box-sizing: border-box; transition: all 0.3s ease; appearance: none; }
+        select { background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1em; padding-right: 2.5rem; }
+        input[type="text"]:focus, input[type="date"]:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
+        ::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.5; cursor: pointer; }
+
+        .btn-group { display: flex; gap: 12px; margin-top: 30px; }
+        button { flex: 1; padding: 16px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.2s ease; }
+        .btn-primary { background-color: var(--text-main); color: var(--bg-color); }
+        .btn-primary:hover { background-color: #ffffff; }
+        .btn-secondary { background-color: transparent; color: var(--text-main); border: 1px solid var(--border); }
+        .btn-secondary:hover { background-color: rgba(255, 255, 255, 0.05); border-color: var(--text-muted); }
+        .btn-add { background-color: rgba(197, 168, 128, 0.1); color: var(--accent); border: 1px dashed var(--accent); padding: 12px; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .btn-add:hover { background-color: rgba(197, 168, 128, 0.2); }
+        button:disabled { background-color: var(--border); color: var(--text-muted); cursor: not-allowed; border: none; }
+        
+        .btn-icon { flex: none; width: 48px; padding: 0; background-color: var(--input-bg); border: 1px solid var(--border); color: var(--accent); display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .btn-icon:hover { border-color: var(--accent); background-color: rgba(197, 168, 128, 0.05); }
+
+        /* Custom Checkbox Styling */
+        .space-card { border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; background-color: rgba(255, 255, 255, 0.01); transition: border-color 0.3s ease; }
+        .space-card:has(> .checkbox-container input[type="checkbox"]:checked) { border-color: rgba(197, 168, 128, 0.4); }
+        .checkbox-container { display: flex; align-items: center; position: relative; cursor: pointer; user-select: none; font-size: 14px; font-weight: 500; }
+        .checkbox-container.small { font-size: 13px; font-weight: 400; color: #d1d1d6; }
+        .checkbox-container input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+        .checkmark { height: 18px; width: 18px; background-color: var(--input-bg); border: 1px solid var(--border); border-radius: 4px; margin-right: 12px; display: inline-block; position: relative; transition: all 0.2s ease; flex-shrink: 0;}
+        .checkbox-container.small .checkmark { height: 16px; width: 16px; margin-right: 8px; }
+        .checkbox-container:hover input ~ .checkmark { border-color: var(--accent); }
+        .checkbox-container input:checked ~ .checkmark { background-color: var(--checkbox-accent); border-color: var(--checkbox-accent); }
+        .checkmark:after { content: ""; position: absolute; display: none; left: 6px; top: 2px; width: 4px; height: 9px; border: solid #121212; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+        .checkbox-container.small .checkmark:after { left: 5px; top: 1px; width: 3px; height: 8px; }
+        .checkbox-container input:checked ~ .checkmark:after { display: block; }
+
+        /* Nested Container */
+        .nested-container { margin-left: 30px; margin-top: 16px; padding-left: 12px; border-left: 1px dashed var(--border); display: none; }
+        .nested-item { margin-bottom: 16px; }
+        .nested-item:last-child { margin-bottom: 0; }
+        .sub-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; margin-left: 30px; display: none; }
+        .sub-input-group { margin-top: 10px; margin-left: 30px; display: none; }
+        .sub-input-group select, .sub-input-group textarea { padding: 10px; font-size: 13px; border-radius: 4px; margin-bottom: 8px; }
+        
+        /* Bedroom Instance Header */
+        .bedroom-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;}
+        .bedroom-header h3 { font-size: 14px; font-weight: 600; color: var(--accent); margin: 0; text-transform: uppercase; letter-spacing: 1px;}
+        .remove-btn { background: none; border: none; color: #ff453a; font-size: 11px; padding: 0; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; flex: none;}
+        .remove-btn:hover { color: #ff6961; background: none; }
+
+        .status { text-align: center; margin-top: 20px; font-size: 12px; font-weight: 600; min-height: 18px; letter-spacing: 0.5px; }
+        .success { color: #4ade80; }
+        .error { color: #f87171; }
+
+        @media (max-width: 480px) {
+            .container { padding: 30px 20px; border: none; box-shadow: none; }
+            body { padding: 0; background-color: var(--card-bg); }
+            .sub-options-grid { grid-template-columns: 1fr; }
+            .faboolux-css-logo { transform: scale(0.85); margin-bottom: 0px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <!-- PURE CSS RECREATION OF IMAGES (1).PNG -->
+            <div class="faboolux-css-logo">
+                <div class="fab-blob-purple"></div>
+                <div class="fab-blob-orange"></div>
+                <div class="fab-text-wrapper">
+                    <span>FAB</span>
+                    <span class="fab-dot fab-dot-orange"></span>
+                    <span class="fab-dot fab-dot-purple"></span>
+                    <div class="fab-lux-group">
+                        <span>LUX</span>
+                        <span class="fab-subtext">INTERIORS</span>
+                    </div>
+                </div>
+            </div>
+            
+            <p>Project Specifications</p>
+        </div>
+
+        <form id="intakeForm" novalidate>
+            
+            <!-- STEP 1: BASIC DETAILS -->
+            <div id="step1" class="step active">
+                <div class="form-group">
+                    <label class="field-label" for="date">Log Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label class="field-label" for="clientName">Client Name</label>
+                    <input type="text" id="clientName" name="clientName" placeholder="Enter client's full name" required>
+                </div>
+                <div class="form-group">
+                    <label class="field-label" for="budget">Client Budget</label>
+                    <select id="budget" name="budget" required onchange="handleBudgetChange()">
+                        <option value="" disabled selected hidden>Select budget bracket</option>
+                        <option value="5 - 10 Lakh">5 - 10 Lakh</option>
+                        <option value="10 - 15 Lakh">10 - 15 Lakh</option>
+                        <option value="15 - 20 Lakh">15 - 20 Lakh</option>
+                        <option value="Custom">Custom (Enter manually)</option>
+                    </select>
+                    <!-- Smart Auto-Formatting Budget Box -->
+                    <input type="text" id="budgetCustom" placeholder="e.g., 35 Lakh" style="display:none; margin-top:10px;" 
+                           onfocus="this.value = this.value.replace(/[^0-9]/g, '')" 
+                           onblur="if(this.value.replace(/[^0-9]/g, '') !== '') this.value = this.value.replace(/[^0-9]/g, '') + ' Lakh'">
+                </div>
+                <div class="form-group">
+                    <label class="field-label" for="condition">Site Condition</label>
+                    <input type="text" id="condition" name="condition" placeholder="Enter site condition" required>
+                </div>
+                <div class="form-group">
+                    <label class="field-label" for="submittedBy">Submitted By</label>
+                    <div style="display: flex; gap: 10px;">
+                        <select id="submittedBy" name="submittedBy" required style="flex: 1;">
+                            <option value="" disabled selected hidden>Select RSM</option>
+                            <option value="Anas">Anas</option>
+                            <option value="Sanal">Sanal</option>
+                        </select>
+                        <button type="button" class="btn-icon" onclick="toggleExtraPerson()" title="Add extra person">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
+                    </div>
+                    <input type="text" id="extraPersonName" placeholder="Enter extra person's name..." style="display:none; margin-top:10px;">
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn-primary" onclick="nextStep()">Continue to Requirements</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: DESIGN & TECHNICAL REQUIREMENTS -->
+            <div id="step2" class="step">
+                
+                <!-- 1. LIVING AREA -->
+                <div class="space-card">
+                    <label class="checkbox-container">
+                        <input type="checkbox" class="parent-checkbox" id="reqLiving" onchange="toggleNested('nestedLiving')">
+                        <span class="checkmark"></span> Living Area
+                    </label>
+                    <div id="nestedLiving" class="nested-container req-group">
+                        <div class="nested-item">
+                            <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="livingTvOptions"><span class="checkmark"></span> TV Unit</label>
+                            <div id="livingTvOptions" class="sub-input-group">
+                                <select class="data-select" data-label="TV Mount">
+                                    <option value="">Select Mount Style...</option>
+                                    <option value="Wall mount storage">Wall mount storage</option>
+                                    <option value="Floor mount storage">Floor mount storage</option>
+                                </select>
+                                <div class="sub-options-grid" style="display:grid; margin-left:0; margin-top:5px;">
+                                    <label class="checkbox-container small"><input type="checkbox" value="Back paneling" class="data-check"> <span class="checkmark"></span>Back paneling</label>
+                                    <label class="checkbox-container small"><input type="checkbox" value="Shelf storage (Tall unit)" class="data-check"> <span class="checkmark"></span>Tall Unit Shelving</label>
+                                    <label class="checkbox-container small"><input type="checkbox" value="Ledge work" class="data-check"> <span class="checkmark"></span>Ledge work</label>
+                                    <label class="checkbox-container small"><input type="checkbox" value="Profile lights" class="data-check"> <span class="checkmark"></span>Profile lights</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="nested-item">
+                            <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="livingPartitionOptions"><span class="checkmark"></span> Partition</label>
+                            <div id="livingPartitionOptions" class="sub-input-group">
+                                <select class="data-select" data-label="Partition Type">
+                                    <option value="">Select Partition Type...</option>
+                                    <option value="Wooden partition">Wooden partition</option>
+                                    <option value="Glass partition">Glass partition</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Ceiling Work" class="data-check standalone"><span class="checkmark"></span> Ceiling Work</label></div>
+                        <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Foyer Shoe rack" class="data-check standalone"><span class="checkmark"></span> Foyer Shoe Rack</label></div>
+                        <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Curtain pelmets" class="data-check standalone"><span class="checkmark"></span> Curtain Pelmets</label></div>
+                        <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Wallpapers / textures" class="data-check standalone"><span class="checkmark"></span> Wallpapers / Textures</label></div>
+                        
+                        <!-- Living Notes -->
+                        <div class="nested-item">
+                            <label class="field-label" style="margin-top: 10px;">Living Area Notes</label>
+                            <textarea class="data-text standalone" data-label="Notes" placeholder="Enter custom requirements..." rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. DINING AREA -->
+                <div class="space-card">
+                    <label class="checkbox-container">
+                        <input type="checkbox" class="parent-checkbox" id="reqDining" onchange="toggleNested('nestedDining')">
+                        <span class="checkmark"></span> Dining Area
+                    </label>
+                    <div id="nestedDining" class="nested-container req-group">
+                        <div class="nested-item">
+                            <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="diningCrockeryOptions"><span class="checkmark"></span> Crockery Unit</label>
+                            <div id="diningCrockeryOptions" class="sub-options-grid">
+                                <label class="checkbox-container small"><input type="checkbox" value="Base units" class="data-check"><span class="checkmark"></span>Base units</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Wall units" class="data-check"><span class="checkmark"></span>Wall units</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Tall units" class="data-check"><span class="checkmark"></span>Tall units</label>
+                            </div>
+                        </div>
+
+                        <div class="nested-item">
+                            <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="diningWashOptions"><span class="checkmark"></span> Wash Counter</label>
+                            <div id="diningWashOptions" class="sub-input-group">
+                                <select class="data-select" data-label="Wash Counter">
+                                    <option value="">Select Base Type...</option>
+                                    <option value="Wall mount unit">Wall mount unit</option>
+                                    <option value="Base unit">Base unit</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="nested-item">
+                            <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="diningMirrorOptions"><span class="checkmark"></span> Wash Mirror</label>
+                            <div id="diningMirrorOptions" class="sub-input-group">
+                                <select class="data-select" data-label="Mirror Type">
+                                    <option value="">Select Mirror Type...</option>
+                                    <option value="Plain mirror">Plain mirror</option>
+                                    <option value="Mirror with light">Mirror with light</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Curtain pelmets" class="data-check standalone"><span class="checkmark"></span> Curtain Pelmets</label></div>
+                        <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Ceiling Work" class="data-check standalone"><span class="checkmark"></span> Ceiling Work</label></div>
+                        
+                        <!-- Dining Notes -->
+                        <div class="nested-item">
+                            <label class="field-label" style="margin-top: 10px;">Dining Area Notes</label>
+                            <textarea class="data-text standalone" data-label="Notes" placeholder="Enter custom requirements..." rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. DYNAMIC BEDROOMS -->
+                <div id="bedroomsWrapper"></div>
+                <button type="button" class="btn-add" onclick="addBedroom()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Add Bedroom
+                </button>
+                <div style="height: 16px;"></div>
+
+                <!-- 4. TOILETS -->
+                <div class="space-card">
+                    <label class="checkbox-container">
+                        <input type="checkbox" class="parent-checkbox" id="reqToilets" onchange="toggleNested('nestedToilets')">
+                        <span class="checkmark"></span> Toilets
+                    </label>
+                    <div id="nestedToilets" class="nested-container req-group">
+                        <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Vanity Unit" class="data-check standalone"><span class="checkmark"></span> Vanity</label></div>
+                        <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Shower Partition" class="data-check standalone"><span class="checkmark"></span> Shower Partition</label></div>
+                        <div class="nested-item">
+                            <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="toiletMirrorOptions"><span class="checkmark"></span> Mirror</label>
+                            <div id="toiletMirrorOptions" class="sub-input-group">
+                                <select class="data-select" data-label="Mirror Type">
+                                    <option value="">Select Mirror Type...</option>
+                                    <option value="Plain mirror">Plain mirror</option>
+                                    <option value="Mirror with light">Mirror with light</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Toilet Notes -->
+                        <div class="nested-item">
+                            <label class="field-label" style="margin-top: 10px;">Toilet Notes</label>
+                            <textarea class="data-text standalone" data-label="Notes" placeholder="Enter custom requirements..." rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. KITCHEN -->
+                <div class="space-card">
+                    <label class="checkbox-container">
+                        <input type="checkbox" class="parent-checkbox" id="reqKitchen" onchange="toggleNested('nestedKitchen')">
+                        <span class="checkmark"></span> Kitchen
+                    </label>
+                    <div id="nestedKitchen" class="nested-container req-group">
+                        <div class="nested-item">
+                            <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="kitchenUnitsOptions"><span class="checkmark"></span> Storage Units</label>
+                            <div id="kitchenUnitsOptions" class="sub-options-grid">
+                                <label class="checkbox-container small"><input type="checkbox" value="Base units" class="data-check"><span class="checkmark"></span>Base units</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Wall units" class="data-check"><span class="checkmark"></span>Wall units</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Loft units" class="data-check"><span class="checkmark"></span>Loft units</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Accessories" class="data-check"><span class="checkmark"></span>Accessories</label>
+                                
+                                <!-- Multiple Selection Tall Units -->
+                                <div style="grid-column: 1 / -1;">
+                                    <label class="checkbox-container small"><input type="checkbox" value="Tall units" class="data-check" onchange="toggleSubSelect(this, 'kitchenTallGrid')"><span class="checkmark"></span>Tall units</label>
+                                    <div id="kitchenTallGrid" class="sub-select" style="display:none; margin-top:8px; margin-left: 20px; grid-template-columns: 1fr; gap: 8px;">
+                                        <label class="checkbox-container small"><input type="checkbox" value="Tall unit with shelf" class="data-check"><span class="checkmark"></span>Tall unit with shelf</label>
+                                        <label class="checkbox-container small"><input type="checkbox" value="Tall unit with accessories" class="data-check"><span class="checkmark"></span>Tall unit with accessories</label>
+                                        <label class="checkbox-container small"><input type="checkbox" value="Tall unit with microwave and oven" class="data-check"><span class="checkmark"></span>Tall unit with microwave and oven</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nested-item">
+                            <label class="field-label" style="margin-top: 10px;">Handle Type</label>
+                            <select class="data-select standalone" data-label="Handle Style">
+                                <option value="">Select Handle Style...</option>
+                                <option value="G profile">G profile</option>
+                                <option value="Gola">Gola profile</option>
+                                <option value="Standard Handle">Standard Handle</option>
+                            </select>
+                        </div>
+                        <div class="nested-item">
+                            <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="kitchenAppOptions"><span class="checkmark"></span> Appliances Required</label>
+                            <div id="kitchenAppOptions" class="sub-options-grid">
+                                <label class="checkbox-container small"><input type="checkbox" value="Hood/Chimney" class="data-check"><span class="checkmark"></span>Hood</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Hob" class="data-check"><span class="checkmark"></span>Hob</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Sink" class="data-check"><span class="checkmark"></span>Sink</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Oven" class="data-check"><span class="checkmark"></span>Oven</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Microwave" class="data-check"><span class="checkmark"></span>Microwave</label>
+                            </div>
+                        </div>
+                        <div class="nested-item">
+                            <label class="field-label" style="margin-top: 10px;">Kitchen Notes</label>
+                            <textarea class="data-text standalone" data-label="Notes" placeholder="Enter custom requirements..." rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. WORK AREA -->
+                <div class="space-card">
+                    <label class="checkbox-container">
+                        <input type="checkbox" class="parent-checkbox" id="reqWork" onchange="toggleNested('nestedWork')">
+                        <span class="checkmark"></span> Work Area
+                    </label>
+                    <div id="nestedWork" class="nested-container req-group">
+                        <div class="nested-item">
+                            <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="workUnitsOptions"><span class="checkmark"></span> Storage Units</label>
+                            <div id="workUnitsOptions" class="sub-options-grid">
+                                <label class="checkbox-container small"><input type="checkbox" value="Base units" class="data-check"><span class="checkmark"></span>Base units</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Wall units" class="data-check"><span class="checkmark"></span>Wall units</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Loft units" class="data-check"><span class="checkmark"></span>Loft units</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Accessories" class="data-check"><span class="checkmark"></span>Accessories</label>
+                                
+                                <!-- Multiple Selection Tall Units -->
+                                <div style="grid-column: 1 / -1;">
+                                    <label class="checkbox-container small"><input type="checkbox" value="Tall units" class="data-check" onchange="toggleSubSelect(this, 'workTallGrid')"><span class="checkmark"></span>Tall units</label>
+                                    <div id="workTallGrid" class="sub-select" style="display:none; margin-top:8px; margin-left: 20px; grid-template-columns: 1fr; gap: 8px;">
+                                        <label class="checkbox-container small"><input type="checkbox" value="Tall unit with shelf" class="data-check"><span class="checkmark"></span>Tall unit with shelf</label>
+                                        <label class="checkbox-container small"><input type="checkbox" value="Tall unit with accessories" class="data-check"><span class="checkmark"></span>Tall unit with accessories</label>
+                                        <label class="checkbox-container small"><input type="checkbox" value="Tall unit with microwave and oven" class="data-check"><span class="checkmark"></span>Tall unit with microwave and oven</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nested-item">
+                            <label class="field-label" style="margin-top: 10px;">Handle Type</label>
+                            <select class="data-select standalone" data-label="Handle Style">
+                                <option value="">Select Handle Style...</option>
+                                <option value="G profile">G profile</option>
+                                <option value="Gola">Gola profile</option>
+                                <option value="Standard Handle">Standard Handle</option>
+                            </select>
+                        </div>
+                        <div class="nested-item">
+                            <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="workAppOptions"><span class="checkmark"></span> Appliances Required</label>
+                            <div id="workAppOptions" class="sub-options-grid">
+                                <label class="checkbox-container small"><input type="checkbox" value="Hood/Chimney" class="data-check"><span class="checkmark"></span>Hood</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Hob" class="data-check"><span class="checkmark"></span>Hob</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Sink" class="data-check"><span class="checkmark"></span>Sink</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Oven" class="data-check"><span class="checkmark"></span>Oven</label>
+                                <label class="checkbox-container small"><input type="checkbox" value="Microwave" class="data-check"><span class="checkmark"></span>Microwave</label>
+                            </div>
+                        </div>
+                        <div class="nested-item">
+                            <label class="field-label" style="margin-top: 10px;">Work Area Notes</label>
+                            <textarea class="data-text standalone" data-label="Notes" placeholder="Enter custom requirements..." rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GENERAL DESIGNER NOTES -->
+                <div class="space-card" style="margin-top: 24px; border-color: rgba(197, 168, 128, 0.4);">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="field-label" for="generalDesignerNotes" style="color: var(--accent);">General Designer Notes</label>
+                        <textarea id="generalDesignerNotes" placeholder="Enter any overall project instructions, style references, or notes for the designer here..." rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn-secondary" onclick="prevStep()">Back</button>
+                    <button type="button" id="submitBtn" class="btn-primary" onclick="submitData()">Submit to Dashboard</button>
+                </div>
+                
+                <div id="statusMessage" class="status"></div>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- TEMPLATE FOR DYNAMIC BEDROOM -->
+    <template id="bedroomTemplate">
+        <div class="space-card bedroom-instance">
+            <div class="bedroom-header">
+                <h3>Bedroom <span class="bed-num"></span></h3>
+                <button type="button" class="remove-btn" onclick="removeBedroom(this)">Remove</button>
+            </div>
+            <div class="req-group">
+                
+                <div class="nested-item">
+                    <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="bedCotOptions_{id}"><span class="checkmark"></span> Cot</label>
+                    <div id="bedCotOptions_{id}" class="sub-input-group">
+                        <select class="data-select" data-label="Cot Size">
+                            <option value="">Select Size...</option>
+                            <option value="King Size">King Size</option>
+                            <option value="King Size with storage">King Size with storage</option>
+                            <option value="Queen Size">Queen Size</option>
+                            <option value="Queen Size with storage">Queen Size with storage</option>
+                            <option value="Single Cot">Single Cot</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="nested-item">
+                    <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="bedTableOptions_{id}"><span class="checkmark"></span> Bed Side Table</label>
+                    <div id="bedTableOptions_{id}" class="sub-input-group">
+                        <select class="data-select" data-label="Table Mount">
+                            <option value="">Select Mount...</option>
+                            <option value="Wall mount">Wall mount</option>
+                            <option value="Base unit">Base unit</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="nested-item">
+                    <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="bedWardrobeOptions_{id}"><span class="checkmark"></span> Wardrobe</label>
+                    <div id="bedWardrobeOptions_{id}" class="sub-input-group">
+                        <select class="data-select" data-label="Wardrobe Type" onchange="handleWardrobeChange(this, '{id}')">
+                            <option value="">Select Wardrobe Type...</option>
+                            <option value="Hinged">Hinged</option>
+                            <option value="Sliding">Sliding</option>
+                        </select>
+                        <select id="hingedOptions_{id}" class="data-select sub-select" data-label="Hinged Options" style="display:none; margin-top:8px;">
+                            <option value="">Select Doors...</option>
+                            <option value="2 Door">2 Door</option>
+                            <option value="3 Door">3 Door</option>
+                            <option value="4 Door">4 Door</option>
+                        </select>
+                        <select id="slidingOptions_{id}" class="data-select sub-select" data-label="Sliding Options" style="display:none; margin-top:8px;">
+                            <option value="">Select Sliding Type...</option>
+                            <option value="Slideline 18">Slideline 18</option>
+                            <option value="Aristo">Aristo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="nested-item">
+                    <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="bedDressingOptions_{id}"><span class="checkmark"></span> Dressing</label>
+                    <div id="bedDressingOptions_{id}" class="sub-input-group">
+                        <label class="checkbox-container small" style="margin-bottom:8px;"><input type="checkbox" value="Dressing unit" class="data-check"> <span class="checkmark"></span>Dressing unit</label>
+                        <label class="checkbox-container small"><input type="checkbox" onchange="toggleSubSelect(this, 'bedMirrorSelect_{id}')"> <span class="checkmark"></span>Mirror</label>
+                        <select id="bedMirrorSelect_{id}" class="data-select sub-select" data-label="Mirror Type" style="display:none; margin-top:8px;">
+                            <option value="">Select Mirror Type...</option>
+                            <option value="Plain mirror">Plain mirror</option>
+                            <option value="Mirror with light">Mirror with light</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Loft unit" class="data-check standalone"><span class="checkmark"></span> Loft</label></div>
+                <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Ceiling work" class="data-check standalone"><span class="checkmark"></span> Ceiling</label></div>
+                <div class="nested-item"><label class="checkbox-container"><input type="checkbox" value="Curtain pelmets" class="data-check standalone"><span class="checkmark"></span> Curtain pelmets</label></div>
+
+                <!-- Bedroom Notes -->
+                <div class="nested-item">
+                    <label class="field-label" style="margin-top: 10px;">Bedroom Notes</label>
+                    <textarea class="data-text standalone" data-label="Notes" placeholder="Enter custom requirements..." rows="2"></textarea>
+                </div>
+
+            </div>
+        </div>
+    </template>
+
+    <script>
+        document.getElementById('date').valueAsDate = new Date();
+        let bedroomCount = 0;
+
+        // Reveals the text box if Budget is set to Custom
+        function handleBudgetChange() {
+            var budgetSel = document.getElementById('budget');
+            var customInp = document.getElementById('budgetCustom');
+            if (budgetSel.value === 'Custom') {
+                customInp.style.display = 'block';
+                customInp.focus();
+            } else {
+                customInp.style.display = 'none';
+                customInp.value = '';
+            }
+        }
+        
+        // Reveals the extra person input and locks the RSM dropdown
+        function toggleExtraPerson() {
+            var extraInput = document.getElementById('extraPersonName');
+            var rsmSelect = document.getElementById('submittedBy');
+            
+            if (extraInput.style.display === 'none' || extraInput.style.display === '') {
+                extraInput.style.display = 'block';
+                extraInput.focus();
+                rsmSelect.disabled = true; // Lock main dropdown
+            } else {
+                extraInput.style.display = 'none';
+                extraInput.value = '';
+                rsmSelect.disabled = false; // Unlock main dropdown
+            }
+        }
+
+        function nextStep() {
+            const fields = ['date', 'clientName', 'budget', 'condition', 'submittedBy'];
+            for(let id of fields) {
+                // If the dropdown is disabled (due to extra person), we skip validation for it
+                if(id === 'submittedBy' && document.getElementById('submittedBy').disabled) {
+                    continue;
+                }
+                
+                if(!document.getElementById(id).value) {
+                    alert("Please fill in all basic client details before proceeding.");
+                    return;
+                }
+            }
+            
+            if (document.getElementById('budget').value === 'Custom' && !document.getElementById('budgetCustom').value.trim()) {
+                alert("Please enter the custom budget amount.");
+                return;
+            }
+
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+        }
+
+        function prevStep() {
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+        }
+
+        function toggleNested(elementId) {
+            const container = document.getElementById(elementId);
+            const isChecked = container.previousElementSibling.querySelector('input[type="checkbox"]').checked;
+            container.style.display = isChecked ? 'block' : 'none';
+        }
+
+        function toggleSubSelect(checkbox, targetId) {
+            const el = document.getElementById(targetId);
+            if (el) {
+                if (checkbox.checked) {
+                    el.style.display = el.tagName === 'SELECT' ? 'block' : 'grid';
+                } else {
+                    el.style.display = 'none';
+                    if (el.tagName === 'SELECT') {
+                        el.value = '';
+                    } else {
+                        // Uncheck all child checkboxes if it's a multiple selection grid
+                        el.querySelectorAll('input[type="checkbox"]').forEach(i => i.checked = false);
+                    }
+                }
+            }
+        }
+
+        function handleWardrobeChange(sel, id) {
+            const hinged = document.getElementById('hingedOptions_' + id);
+            const sliding = document.getElementById('slidingOptions_' + id);
+            
+            if (sel.value === 'Hinged') {
+                hinged.style.display = 'block';
+                sliding.style.display = 'none';
+                sliding.value = '';
+            } else if (sel.value === 'Sliding') {
+                sliding.style.display = 'block';
+                hinged.style.display = 'none';
+                hinged.value = '';
+            } else {
+                hinged.style.display = 'none';
+                sliding.style.display = 'none';
+                hinged.value = '';
+                sliding.value = '';
+            }
+        }
+
+        document.addEventListener('change', function(e) {
+            if(e.target && e.target.classList.contains('lvl2-check')) {
+                const targetId = e.target.getAttribute('data-target');
+                const targetEl = document.getElementById(targetId);
+                if(targetEl) {
+                    if(e.target.checked) {
+                        targetEl.style.display = targetEl.classList.contains('sub-options-grid') ? 'grid' : 'block';
+                    } else {
+                        targetEl.style.display = 'none';
+                        
+                        targetEl.querySelectorAll('input[type="checkbox"]').forEach(i => {
+                            i.checked = false;
+                        });
+                        
+                        targetEl.querySelectorAll('select').forEach(s => {
+                            s.selectedIndex = 0;
+                            if (s.classList.contains('sub-select')) {
+                                s.style.display = 'none';
+                            }
+                        });
+                        
+                        // Hide child div grids (like Tall units)
+                        targetEl.querySelectorAll('div.sub-select').forEach(div => {
+                           div.style.display = 'none'; 
+                        });
+
+                        targetEl.querySelectorAll('textarea').forEach(t => t.value = '');
+                    }
+                }
+            }
+        });
+
+        function addBedroom() {
+            bedroomCount++;
+            const template = document.getElementById('bedroomTemplate').innerHTML;
+            const html = template.replace(/{id}/g, bedroomCount);
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = html;
+            const instance = wrapper.firstElementChild;
+            instance.querySelector('.bed-num').textContent = bedroomCount;
+            document.getElementById('bedroomsWrapper').appendChild(instance);
+            renumberBedrooms();
+        }
+
+        function removeBedroom(btn) {
+            btn.closest('.bedroom-instance').remove();
+            renumberBedrooms();
+        }
+
+        function renumberBedrooms() {
+            const beds = document.querySelectorAll('.bedroom-instance');
+            beds.forEach((bed, index) => { bed.querySelector('.bed-num').textContent = index + 1; });
+            bedroomCount = beds.length;
+        }
+
+        window.onload = () => { addBedroom(); };
+
+        function parseGroup(groupContainer) {
+            let logs = [];
+            const lvl2Checks = groupContainer.querySelectorAll('.lvl2-check:checked');
+            lvl2Checks.forEach(check => {
+                let itemName = check.parentElement.textContent.trim();
+                let details = [];
+                const targetId = check.getAttribute('data-target');
+                const targetEl = document.getElementById(targetId);
+                if(targetEl) {
+                    targetEl.querySelectorAll('select.data-select').forEach(sel => {
+                        if(sel.value) details.push(sel.getAttribute('data-label') + ": " + sel.value);
+                    });
+                    let subChecks = [];
+                    targetEl.querySelectorAll('input.data-check:checked').forEach(c => subChecks.push(c.value));
+                    if(subChecks.length > 0) details.push("Includes: " + subChecks.join(", "));
+                }
+                if(details.length > 0) logs.push("  - " + itemName + " [" + details.join(" | ") + "]");
+                else logs.push("  - " + itemName);
+            });
+
+            groupContainer.querySelectorAll('select.standalone').forEach(sel => {
+                if(sel.value) logs.push("  - " + sel.getAttribute('data-label') + ": " + sel.value);
+            });
+
+            groupContainer.querySelectorAll('input.standalone:checked').forEach(check => {
+                logs.push("  - " + check.value);
+            });
+
+            groupContainer.querySelectorAll('textarea.standalone').forEach(text => {
+                if(text.value.trim() !== '') logs.push("  - " + text.getAttribute('data-label') + ": " + text.value.trim().replace(/\n/g, " "));
+            });
+
+            return logs;
+        }
+
+        function compileRequirements() {
+            let finalLog = [];
+            const areas = [
+                { id: 'reqLiving', name: 'LIVING AREA', group: 'nestedLiving' },
+                { id: 'reqDining', name: 'DINING AREA', group: 'nestedDining' },
+                { id: 'reqToilets', name: 'TOILETS', group: 'nestedToilets' },
+                { id: 'reqKitchen', name: 'KITCHEN', group: 'nestedKitchen' },
+                { id: 'reqWork', name: 'WORK AREA', group: 'nestedWork' }
+            ];
+
+            areas.forEach(area => {
+                if(document.getElementById(area.id).checked) {
+                    finalLog.push("■ " + area.name);
+                    const parsed = parseGroup(document.getElementById(area.group));
+                    if(parsed.length > 0) finalLog.push(parsed.join("\n"));
+                    else finalLog.push("  - Included (No specific details configured)");
+                    finalLog.push("");
+                }
+            });
+
+            const beds = document.querySelectorAll('.bedroom-instance');
+            beds.forEach((bed, index) => {
+                finalLog.push("■ BEDROOM " + (index + 1));
+                const parsed = parseGroup(bed.querySelector('.req-group'));
+                if(parsed.length > 0) finalLog.push(parsed.join("\n"));
+                else finalLog.push("  - Included (No specific details configured)");
+                finalLog.push("");
+            });
+
+            // Append General Designer Notes if present
+            const genNotes = document.getElementById('generalDesignerNotes').value.trim();
+            if(genNotes !== '') {
+                finalLog.push("■ GENERAL DESIGNER NOTES");
+                // Splitting by line breaks to ensure format remains neat in spreadsheet
+                let noteLines = genNotes.split('\n');
+                noteLines.forEach(line => {
+                    if(line.trim() !== '') finalLog.push("  - " + line.trim());
+                });
+            }
+
+            return finalLog.join("\n").trim();
+        }
+
+        // REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxWNHmKdz3Sh70wLSSEPednuvtXfULIDZl17tRM5UPxYvcfndjxN6F7xRZ1y_ERmXSk/exec'; 
+        
+        const form = document.getElementById('intakeForm');
+        const btn = document.getElementById('submitBtn');
+        const status = document.getElementById('statusMessage');
+
+        function submitData() {
+            btn.disabled = true;
+            btn.textContent = 'Transmitting Data...';
+            status.textContent = '';
+            status.className = 'status';
+
+            const requirementsString = compileRequirements();
+            
+            // Handle Custom Budget Value
+            let finalBudget = document.getElementById('budget').value;
+            if (finalBudget === 'Custom') {
+                finalBudget = document.getElementById('budgetCustom').value.trim();
+            }
+            
+            // Handle Custom/Extra RSM Value
+            let finalRsm = document.getElementById('submittedBy').value;
+            let extraRsm = document.getElementById('extraPersonName').value.trim();
+            if (document.getElementById('submittedBy').disabled) {
+                finalRsm = extraRsm; // Only use extra person if dropdown is disabled
+            } else if (extraRsm !== '') {
+                finalRsm = finalRsm ? finalRsm + ' & ' + extraRsm : extraRsm;
+            }
+
+            const data = new URLSearchParams();
+            data.append('date', document.getElementById('date').value);
+            data.append('clientName', document.getElementById('clientName').value);
+            data.append('budget', finalBudget);
+            data.append('condition', document.getElementById('condition').value);
+            data.append('submittedBy', finalRsm);
+            data.append('requirements', requirementsString);
+
+            fetch(scriptURL, { method: 'POST', body: data, headers: { 'Content-Type': 'application/x-www-form-urlencoded'} })
+            .then(response => response.json())
+            .then(result => {
+                btn.disabled = false;
+                btn.textContent = 'Submit to Dashboard';
+                if (result.result === 'success') {
+                    status.textContent = 'Data successfully logged in spreadsheet.';
+                    status.className = 'status success';
+                    
+                    setTimeout(() => {
+                        form.reset();
+                        document.getElementById('date').valueAsDate = new Date();
+                        document.getElementById('budgetCustom').style.display = 'none';
+                        document.getElementById('extraPersonName').style.display = 'none';
+                        document.getElementById('submittedBy').disabled = false; // Reset the disabled state
+                        document.querySelectorAll('.nested-container, .sub-input-group, .sub-options-grid').forEach(n => n.style.display = 'none');
+                        document.getElementById('bedroomsWrapper').innerHTML = '';
+                        addBedroom();
+                        prevStep();
+                        status.textContent = '';
+                    }, 2000);
+                } else throw new Error('Script error');
+            })
+            .catch(error => {
+                btn.disabled = false;
+                btn.textContent = 'Submit to Dashboard';
+                status.textContent = 'Transmission finished. Double check Google Sheets.';
+                status.className = 'status success';
+            });
+        }
+    </script>
+</body>
+</html>
