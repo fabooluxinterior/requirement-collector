@@ -128,19 +128,6 @@
                     <input type="text" id="clientName" name="clientName" placeholder="Enter client's full name" required>
                 </div>
                 <div class="form-group">
-                    <label class="field-label" for="budget">Client Budget</label>
-                    <select id="budget" name="budget" required onchange="handleBudgetChange()">
-                        <option value="" disabled selected hidden>Select budget bracket</option>
-                        <option value="5 - 10 Lakh">5 - 10 Lakh</option>
-                        <option value="10 - 15 Lakh">10 - 15 Lakh</option>
-                        <option value="15 - 20 Lakh">15 - 20 Lakh</option>
-                        <option value="No budget preference">No budget preference</option>
-                        <option value="Custom">Custom (Enter manually)</option>
-                    </select>
-                    <!-- Type=Number restricts to purely digits and opens the mobile number pad -->
-                    <input type="number" id="budgetCustom" placeholder="Enter amount (e.g. 35)" style="display:none; margin-top:10px;" min="0">
-                </div>
-                <div class="form-group">
                     <label class="field-label" for="condition">Site Condition</label>
                     <input type="text" id="condition" name="condition" placeholder="Enter site condition" required>
                 </div>
@@ -465,6 +452,22 @@
                     </div>
                 </div>
 
+                <!-- CLIENT BUDGET (MOVED FROM STEP 1) -->
+                <div class="space-card" style="margin-top: 24px; border-color: rgba(197, 168, 128, 0.4);">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="field-label" for="budget" style="color: var(--accent);">Client Budget</label>
+                        <select id="budget" name="budget" required onchange="handleBudgetChange()">
+                            <option value="" disabled selected hidden>Select budget bracket</option>
+                            <option value="5 - 10 Lakh">5 - 10 Lakh</option>
+                            <option value="10 - 15 Lakh">10 - 15 Lakh</option>
+                            <option value="15 - 20 Lakh">15 - 20 Lakh</option>
+                            <option value="No budget preference">No budget preference</option>
+                            <option value="Custom">Custom (Enter manually)</option>
+                        </select>
+                        <input type="number" id="budgetCustom" placeholder="Enter amount (e.g. 35)" style="display:none; margin-top:10px;" min="0">
+                    </div>
+                </div>
+
                 <!-- GENERAL DESIGNER NOTES -->
                 <div class="space-card" style="margin-top: 24px; border-color: rgba(197, 168, 128, 0.4);">
                     <div class="form-group" style="margin-bottom: 0;">
@@ -510,6 +513,17 @@
                             <option value="Queen Size">Queen Size</option>
                             <option value="Queen Size with storage">Queen Size with storage</option>
                             <option value="Single Cot">Single Cot</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="nested-item">
+                    <label class="checkbox-container"><input type="checkbox" class="lvl2-check" data-target="bedHeadboardOptions_{id}"><span class="checkmark"></span> Headboard</label>
+                    <div id="bedHeadboardOptions_{id}" class="sub-input-group">
+                        <select class="data-select" data-label="Headboard Type">
+                            <option value="">Select Headboard Type...</option>
+                            <option value="Panel headboard">Panel headboard</option>
+                            <option value="Upholstery headboard">Upholstery headboard</option>
                         </select>
                     </div>
                 </div>
@@ -670,7 +684,7 @@
         }
 
         function nextStep() {
-            const fields = ['date', 'clientName', 'budget', 'condition', 'submittedBy'];
+            const fields = ['date', 'clientName', 'condition', 'submittedBy'];
             for(let id of fields) {
                 // If the dropdown is disabled (due to extra person), we skip validation for it
                 if(id === 'submittedBy' && document.getElementById('submittedBy').disabled) {
@@ -683,11 +697,6 @@
                 }
             }
             
-            if (document.getElementById('budget').value === 'Custom' && !document.getElementById('budgetCustom').value.trim()) {
-                alert("Please enter the custom budget amount.");
-                return;
-            }
-
             document.getElementById('step1').classList.remove('active');
             document.getElementById('step2').classList.add('active');
         }
@@ -890,11 +899,20 @@
         // REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
         const scriptURL = 'https://script.google.com/macros/s/AKfycbxWNHmKdz3Sh70wLSSEPednuvtXfULIDZl17tRM5UPxYvcfndjxN6F7xRZ1y_ERmXSk/exec'; 
         
-        const form = document.getElementById('intakeForm');
-        const btn = document.getElementById('submitBtn');
-        const status = document.getElementById('statusMessage');
-
         function submitData() {
+            // New Budget Validation block prior to submission
+            if(!document.getElementById('budget').value) {
+                alert("Please select a budget bracket before submitting.");
+                return;
+            }
+            if (document.getElementById('budget').value === 'Custom' && !document.getElementById('budgetCustom').value.trim()) {
+                alert("Please enter the custom budget amount.");
+                return;
+            }
+
+            const btn = document.getElementById('submitBtn');
+            const status = document.getElementById('statusMessage');
+
             btn.disabled = true;
             btn.textContent = 'Transmitting Data...';
             status.textContent = '';
@@ -936,6 +954,7 @@
                     status.className = 'status success';
                     
                     setTimeout(() => {
+                        const form = document.getElementById('intakeForm');
                         form.reset();
                         document.getElementById('date').valueAsDate = new Date();
                         document.getElementById('budgetCustom').style.display = 'none';
